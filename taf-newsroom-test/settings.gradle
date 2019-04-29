@@ -1,0 +1,4 @@
+rootProject.name = 'taf-newsroom-test'
+
+include   ':taf-newsroom'
+project(':taf-newsroom').projectDir = new File(settingsDir, '../taf-newsroom')
