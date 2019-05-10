@@ -1,5 +1,7 @@
 package com.thomsonreuters.newsroom.rest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -7,6 +9,8 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class TestNGGrouping {
+
+    private static final Logger LOGGER = LogManager.getLogger(TestNGGrouping.class);
 
     @BeforeTest
     public void setupTest() {
