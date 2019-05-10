@@ -1,6 +1,12 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
 }
+
+apply plugin: 'java'
 
 group 'com.thomsonreuters.newsroom'
 version '1.0-SNAPSHOT'
@@ -9,39 +15,43 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
+    jcenter()
     mavenCentral()
+    maven { url "https://dl.bintray.com/epam/reportportal" }
 }
 
 dependencies {
+
+    implementation group: 'com.epam.reportportal', name: 'agent-java-testng', version: '4.2.1'
+    implementation group: 'com.epam.reportportal', name: 'logger-java-logback', version: '4.0.0'
+    implementation group: 'com.epam.reportportal', name: 'logger-java-log4j', version: '4.0.1'
+    
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.10.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
+    
+    
     testImplementation  group: 'junit', name: 'junit', version: '4.12'
     testImplementation  group: 'io.rest-assured', name: 'rest-assured', version: '3.3.0'
     testImplementation  group: 'org.testng', name: 'testng', version: '6.14.3'
     testImplementation  group: 'org.assertj', name: 'assertj-core', version: '3.12.2'
 }
 
-
 dependencies {
     compile project(':taf-newsroom')
 }
 
 test {
+    systemProperty 'usedefaultlisteners', false
+    systemProperty 'listener', 'com.epam.reportportal.testng.ReportPortalTestNGListener'
+}
+
+task smokeTests(type: Test){
     useTestNG() { //Tells Gradle to use TestNG
-        useDefaultListeners = true // Tells TestNG to execute its default reporting structure
+       suites 'src/test/resources/suite.xml'
+        includeGroups 'Smoke'
     }
 }
 
-task smokeTests(type: Test) { // we define a task with name ‘smokeTests’
-    useTestNG() {
-        useDefaultListeners = true
-        suites 'src/test/resources/suite.xml'
-        includeGroups 'Smoke' // We define the group name by using ‘includeGroups’ parameter.
-    }
-}
 
-task restApiGetTests(type: Test) {
-    useTestNG() {
-        useDefaultListeners = true
-        suites 'src/test/resources/suite.xml'
-        includeGroups 'Rest API GET'
-    }
-}
