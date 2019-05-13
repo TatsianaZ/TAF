@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Training Suite">
+
+    <listeners>
+        <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
+    </listeners>
+
+    <test name="TestNG Test">
+        <groups>
+            <run>
+                <include name="Smoke"/>
+                <include name="Regression"/>
+                <include name="Rest API"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.thomsonreuters.newsroom.rest.FolderRestTests"></class>
+            <class name="com.thomsonreuters.newsroom.rest.TestNGGrouping"></class>
+        </classes>
+    </test>
+</suite>
